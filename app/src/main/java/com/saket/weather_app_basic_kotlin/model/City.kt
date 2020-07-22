@@ -1,5 +1,7 @@
 package com.saket.weather_app_basic_kotlin.model
 
+import com.squareup.moshi.Json
+
 /**
  * Data class is a container class for data.
  * Properties of data class -
@@ -13,8 +15,10 @@ package com.saket.weather_app_basic_kotlin.model
  * toString()
  * copy()
  *
- * Properties defined outside the primary constructor are exculded from
- * the automatically generated functions.
+ * Properties defined outside the primary constructor are excluded from
+ * the automatically generated functions. They are not considered when comparing 2 objects.
  * For more details - https://kotlinlang.org/docs/reference/data-classes.html
  */
-data class City(val cityName: String, val weatherInfo: WeatherInfo)
+data class City(@Json(name = "title") val cityName: String,val woeid: String) {
+    lateinit var weatherInfo: WeatherInfo
+}
