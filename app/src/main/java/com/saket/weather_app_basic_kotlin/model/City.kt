@@ -17,6 +17,9 @@ import com.squareup.moshi.Json
  *
  * Properties defined outside the primary constructor are excluded from
  * the automatically generated functions. They are not considered when comparing 2 objects.
+ * So in below class, cityName and woeid will be used to compare 2 instances of City class
+ * when using equals().
+ *
  * For more details - https://kotlinlang.org/docs/reference/data-classes.html
  */
 data class City(@Json(name = "title") val cityName: String,val woeid: String) {

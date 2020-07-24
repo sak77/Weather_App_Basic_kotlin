@@ -16,6 +16,9 @@ import retrofit2.http.Query
  * Notice how there is no WeahterAPIClient class here. Just the retrofit instance,
  * The MetaWeatherAPI interface and the object class which holds instance of the retrofit
  * for MetaWeatherAPI service.
+ *
+ * This is because in Kotlin, functions are first class members. Which means they do not have
+ * to be enclosed in a class.
  */
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
