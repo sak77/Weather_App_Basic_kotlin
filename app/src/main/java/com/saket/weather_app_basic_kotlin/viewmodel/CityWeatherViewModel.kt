@@ -7,6 +7,11 @@ import com.saket.weather_app_basic_kotlin.model.City
 import com.saket.weather_app_basic_kotlin.model.WeatherInfo
 import com.saket.weather_app_basic_kotlin.repository.CityWeatherRepository
 
+/**
+ * Viewmodel class survives some configuration changes of an activity/fragment. Hence,
+ * they can be used to persist data across configuration changes that may happen due to device
+ * rotation etc. Also, they are good place to store any logic related to fragment navigation..
+ */
 class CityWeatherViewModel(val cityWeatherRepository: CityWeatherRepository) : ViewModel() {
 
     private val city_list = ArrayList<City>()
@@ -17,6 +22,14 @@ class CityWeatherViewModel(val cityWeatherRepository: CityWeatherRepository) : V
     //Live data is exposed to the calling class so its value can only be read but not be set..
     val live_city_list : LiveData<List<City>>
     get() = _live_city_list
+
+    //Current setected city - backing property
+    //stores current city selected by user to view its weather details
+    //also used to navigate to weather details fragment...
+    private val _current_selected_city = MutableLiveData<City>()
+    //Public livedata for current selected city
+    val live_current_selected_city : LiveData<City>
+    get() = _current_selected_city
 
     fun getCityWeatherDetails() {
         //List of city names
@@ -47,5 +60,9 @@ class CityWeatherViewModel(val cityWeatherRepository: CityWeatherRepository) : V
                 _live_city_list.value = city_list
             }
         }
+    }
+
+    fun navigateToWeatherDetails(city: City) {
+        _current_selected_city.value = city
     }
 }

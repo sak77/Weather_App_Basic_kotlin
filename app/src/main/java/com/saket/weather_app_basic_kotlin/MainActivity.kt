@@ -13,9 +13,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.toolbar.setTitle("My Title")
         setSupportActionBar(binding.toolbar)
-
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container, CityListFragment(), "CityList")
-        transaction.commit()
+        //This prevents the fragment from being added again when device rotates..
+        if (savedInstanceState == null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.fragment_container, CityListFragment(), "CityList")
+            transaction.commit()
+        }
     }
 }

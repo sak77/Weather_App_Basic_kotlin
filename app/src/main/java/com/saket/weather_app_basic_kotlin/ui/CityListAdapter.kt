@@ -2,12 +2,15 @@ package com.saket.weather_app_basic_kotlin.ui
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ExpandableListView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.saket.weather_app_basic_kotlin.databinding.CityListItemBinding
 import com.saket.weather_app_basic_kotlin.model.City
+import java.util.function.Consumer
 
 /**
  * Here we use ListAdapter instead of RecyclerView.Adapter. ListAdapter extends Recyclerview.Adapter.
@@ -22,14 +25,19 @@ import com.saket.weather_app_basic_kotlin.model.City
  * the adapter class.
  */
 private val TAG = "CityListAdapter"
-class CityListAdapter : ListAdapter<City, CityListAdapter.CityViewHolder>(MyItemCallback()) {
+//Passing consumer in constructor to handle city item click events...
+class CityListAdapter(val cityClickListener: Consumer<City>) : ListAdapter<City, CityListAdapter.CityViewHolder>(MyItemCallback()) {
 
     //Taking CityListItemBinding as input parameter and passing binding.root as parameter to parent class constructor
     class CityViewHolder(private val binding: CityListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(city: City) {
+        //Passing consumer as a click listener
+        fun bind(city: City, cityClickListener: Consumer<City>) {
             Log.v(TAG, "Binding current city ${city.cityName}")
             binding.city = city
+            binding.root.setOnClickListener(View.OnClickListener {
+                cityClickListener.accept(city)
+            })
             //binding.executePendingBindings()
         }
 
@@ -39,7 +47,6 @@ class CityListAdapter : ListAdapter<City, CityListAdapter.CityViewHolder>(MyItem
             fun from(parent: ViewGroup): CityViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = CityListItemBinding.inflate(inflater)
-                Log.v(TAG, "from current city")
                 return CityViewHolder(binding)
             }
         }
@@ -51,7 +58,7 @@ class CityListAdapter : ListAdapter<City, CityListAdapter.CityViewHolder>(MyItem
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
         val currCity = getItem(position)
-        holder.bind(currCity)
+        holder.bind(currCity, cityClickListener)
     }
 
     //My DiffUtil itemcallback

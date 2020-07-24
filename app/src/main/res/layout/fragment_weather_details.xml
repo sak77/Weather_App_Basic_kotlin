@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="city"
+            type="com.saket.weather_app_basic_kotlin.model.City" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtWeatherName"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text='@{"Weathet Name: " + city.weatherInfo.weatherName}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtWeatherTitle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:text='@{"City Name: " + city.cityName}'
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtWeatherName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
