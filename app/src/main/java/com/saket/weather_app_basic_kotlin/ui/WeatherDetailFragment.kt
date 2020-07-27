@@ -26,7 +26,7 @@ class WeatherDetailFragment : Fragment() {
         //across both CityListFragment and WeatherDetailsFragment
         cityViewModel = activity?.let { CityWeatherViewModelFactory().getViewModel(it) }!!
         binding.lifecycleOwner = this   //Why is this required??
-        val current_City = cityViewModel?.live_current_selected_city?.value
+        val current_City = cityViewModel?.liveCurrentSelectedCity?.value
         binding.city = current_City
         return binding.root
     }
@@ -34,6 +34,6 @@ class WeatherDetailFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         //Update selected city to null
-        cityViewModel.
+        cityViewModel.navigateToWeatherDetails(null)
     }
 }

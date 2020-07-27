@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+//apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
 
@@ -31,6 +33,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -43,6 +49,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Add androidx.activity and androidx.fragment dependencies so that we can initialize
+    //viewmodel using by viewModels() helper methods...
+    implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
     def version_moshi = "1.9.3"
     //Moshi is a JSON converter library which also supports kotlin
     implementation "com.squareup.moshi:moshi: $version_moshi"
@@ -53,7 +65,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
     //Moshi converter is a converter that parses string data to kotlin objects...maybe??
     implementation "com.squareup.retrofit2:converter-moshi:$version_retrofit"
-
 
     def version_kotlin_coroutines = "1.1.0"
     //Kotlin also works with coroutines and deferred to provide a sequential style of code
