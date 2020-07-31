@@ -50,8 +50,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    //Add androidx.activity and androidx.fragment dependencies so that we can initialize
-    //viewmodel using by viewModels() helper methods...
+    //Android KTX provides Kotlin extensions to the Android Jetpack library.
+    //Here we add dependencies of Fragment and Activity modules from Android KtX.
+    //These provide helper methods to initialize viewModels and perfrom fragment transactions.
     implementation "androidx.activity:activity-ktx:1.1.0"
     implementation "androidx.fragment:fragment-ktx:1.2.5"
 

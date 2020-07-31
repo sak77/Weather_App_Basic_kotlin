@@ -12,13 +12,14 @@ import retrofit2.Response
  * A repository is basically a class that does all data operations (pull/push)
  */
 
+private const val TAG = "CityWeatherRepository"
+
 class CityWeatherRepository {
-    private val TAG = "CityWeatherRepository"
-    val weatherapi_instance = MetaWeatherAPI.retrofitService
+    private val weatherapiInstance = MetaWeatherAPI.retrofitService
 
     //Passing a callback function (Consumer) as a parameter to update City details
-    fun getCityInfo(cityName: String,cityUpdateCallback : (city: City) -> Unit ) {
-        val callCityInfo = weatherapi_instance.getCityInfo(cityName)
+    fun getCityInfo(cityName: String, cityUpdateCallback: (city: City) -> Unit) {
+        val callCityInfo = weatherapiInstance.getCityInfo(cityName)
         //Anonymous class in kotlin - object : Callback<Array<City>> {}
         callCityInfo.enqueue(object : Callback<Array<City>> {
             override fun onFailure(call: Call<Array<City>>, t: Throwable) {
@@ -39,11 +40,17 @@ class CityWeatherRepository {
     }
 
     //Passing a callback function (Consumer) as a parameter to update City weather details
-    fun getCityWeatherInfo(woeid: String, weatherUpdateCallback : (weatherInfo : WeatherInfo) -> Unit) {
-        val date = "2020/07/24"
-        val callCityWeatherInfo = weatherapi_instance.getCityWeatherInfo(woeid, date)
+    fun getCityWeatherInfo(
+        woeid: String,
+        weatherUpdateCallback: (weatherInfo: WeatherInfo) -> Unit
+    ) {
+        val date = "2020/08/01"
+        val callCityWeatherInfo = weatherapiInstance.getCityWeatherInfo(woeid, date)
         callCityWeatherInfo.enqueue(object : Callback<Array<WeatherInfo>> {
-            override fun onResponse(call: Call<Array<WeatherInfo>>,response: Response<Array<WeatherInfo>>) {
+            override fun onResponse(
+                call: Call<Array<WeatherInfo>>,
+                response: Response<Array<WeatherInfo>>
+            ) {
                 if (response.isSuccessful) {
                     val arrResponse = response.body()
                     //Assuming first item is latest weather info

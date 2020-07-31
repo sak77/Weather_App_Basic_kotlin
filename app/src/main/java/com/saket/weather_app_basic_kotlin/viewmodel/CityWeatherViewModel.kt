@@ -38,24 +38,28 @@ class CityWeatherViewModel(private val cityWeatherRepository: CityWeatherReposit
     private var lastSelectedCity: City? = null
 
     //LiveData which tracks if we need to make API request to fetch City Info data..
-    val shouldFetchCityInfo: LiveData<Boolean> = Transformations.map(liveCurrentSelectedCity) { currentCity ->
-        //User lands on city list for first time - yes
-        if (lastSelectedCity == null && currentCity == null)
-            true
-        else {
-            //For any other case simply update previous city but do not fetch data
-            lastSelectedCity = currentCity
-            false
+    val shouldFetchCityInfo: LiveData<Boolean> =
+        Transformations.map(liveCurrentSelectedCity) { currentCity ->
+            //User lands on city list for first time - yes
+            if (lastSelectedCity == null && currentCity == null)
+                true
+            else {
+                //For any other case simply update previous city but do not fetch data
+                lastSelectedCity = currentCity
+                false
+            }
         }
-    }
 
+    //All initialization code can go into the init block...
     init {
+        //By default setting current selected city to null.
         _currentSelectedCity.value = null
     }
 
     fun getCityWeatherDetails() {
         //List of city names
-        val cityNames = listOf("Gothenburg", "Stockholm")
+        val cityNames =
+            listOf("Gothenburg", "Stockholm", "London", "New York", "Berlin")
 
         cityNames.forEach { cityName ->
             //Passing anonymous method (Consumer) for cityUpdateCallback {}.
@@ -64,7 +68,7 @@ class CityWeatherViewModel(private val cityWeatherRepository: CityWeatherReposit
                 city.let {
                     //Create new city instance
                     val currCity = City(cityName = city.cityName, woeid = city.woeid)
-                    //Now call city weather info
+                    //Now get city weather info
                     getCityWeatherInfo(currCity)
                 }
             }
@@ -85,6 +89,8 @@ class CityWeatherViewModel(private val cityWeatherRepository: CityWeatherReposit
     }
 
     fun navigateToWeatherDetails(city: City?) {
+        //Updating currentSelected city will update the observer in CityListFragment to navigate to
+        //weather details fragment...
         _currentSelectedCity.value = city
     }
 }

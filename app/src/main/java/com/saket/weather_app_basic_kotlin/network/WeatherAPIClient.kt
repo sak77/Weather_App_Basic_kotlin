@@ -1,6 +1,5 @@
 package com.saket.weather_app_basic_kotlin.network
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.saket.weather_app_basic_kotlin.model.City
 import com.saket.weather_app_basic_kotlin.model.WeatherInfo
 import com.squareup.moshi.Moshi

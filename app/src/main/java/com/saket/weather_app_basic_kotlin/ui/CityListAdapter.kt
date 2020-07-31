@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ExpandableListView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,15 +17,18 @@ import java.util.function.Consumer
  * methods to override compared to recyclerview.adapter class. We do not have to manually pass the list
  * of data in the constructor like in Recyclerview.Adapter.
  *
- * All data related code comes from teh viewholder. The adapter itself contains very little viewholder
- * related code.
+ * All data related code comes from the viewholder. The adapter itself contains very little viewholder
+ * related or logic code.
  *
- * We are using databinding to bind data between the recyclerview item layout and the viewholder class via
+ * I use databinding to bind data between the recyclerview item layout and the viewholder class via
  * the adapter class.
  */
-private val TAG = "CityListAdapter"
+
+//const is used for those immutable variables (val) whose value is known at compile time.
+//Also it cannot be changed at runtime.
+private const val TAG = "CityListAdapter"
 //Passing consumer in constructor to handle city item click events...
-class CityListAdapter(val cityClickListener: Consumer<City>) : ListAdapter<City, CityListAdapter.CityViewHolder>(MyItemCallback()) {
+class CityListAdapter(private val cityClickListener: Consumer<City>) : ListAdapter<City, CityListAdapter.CityViewHolder>(MyItemCallback()) {
 
     //Taking CityListItemBinding as input parameter and passing binding.root as parameter to parent class constructor
     class CityViewHolder(private val binding: CityListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -69,12 +71,12 @@ class CityListAdapter(val cityClickListener: Consumer<City>) : ListAdapter<City,
     class MyItemCallback : DiffUtil.ItemCallback<City>() {
         override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
             Log.v(TAG, "areItemsTheSame called ${oldItem.cityName} and ${newItem.cityName}")
-            return oldItem.cityName.equals(newItem.cityName)
+            return oldItem.cityName == newItem.cityName
         }
 
         override fun areContentsTheSame(oldItem: City, newItem: City): Boolean {
             Log.v(TAG, "areContentsTheSame called ${oldItem.cityName} and ${newItem.cityName}")
-            return oldItem.equals(newItem)
+            return oldItem == newItem
         }
     }
 }
